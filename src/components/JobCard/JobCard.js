@@ -38,12 +38,24 @@ const JobCard = () => {
     <div className="job-card">
       {jobData.jdList.map((job) => (
         <div className="job-card-item" key={job.jdUid}>
-          {job.logoUrl && <img class="logoUrl" src={job.logoUrl} alt="logo" />}
-          {job.companyName && (
-            <h2 className="company-name">{job.companyName}</h2>
-          )}
-          {job.jobRole && <p className="title">{job.jobRole}</p>}
-          {job.location && <p className="location">{job.location}</p>}
+          <div className="job-card-logo-address">
+            {job.logoUrl && (
+              <img className="logoUrl" src={job.logoUrl} alt="logo" />
+            )}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                lineHeight: '5px',
+              }}
+            >
+              {job.companyName && (
+                <h2 className="company-name">{job.companyName}</h2>
+              )}
+              {job.jobRole && <p className="title">{job.jobRole}</p>}
+              {job.location && <p className="location">{job.location}</p>}
+            </div>
+          </div>
 
           {job.maxJdSalary && job.minJdSalary && (
             <p>
@@ -51,22 +63,27 @@ const JobCard = () => {
               {job.minJdSalary} LPA ✅
             </p>
           )}
+          <p className="about">About Company:</p>
           {job.jobDetailsFromCompany && (
-            <p className="description">{job.jobDetailsFromCompany}</p>
+            <p className="description">
+              <p style={{ fontWeight: 'bold', margin: '0' }}>About us</p>
+              {job.jobDetailsFromCompany}
+            </p>
           )}
           {job.minExp && job.maxExp && (
             <p className="experience-required">
-              Exp {job.minExp}-{job.maxExp} years
+              Minimum Experience <br />
+              {job.minExp} years
             </p>
           )}
-          <div class="Btn-area">
+          <div className="Btn-area">
             {job.jdLink && (
               <a href={job.jdLink} className="apply-button">
                 ⚡ Easy Apply
               </a>
             )}
 
-            <button class="referral">Unlock referral asks </button>
+            <button className="referral">Unlock referral asks </button>
           </div>
         </div>
       ))}
