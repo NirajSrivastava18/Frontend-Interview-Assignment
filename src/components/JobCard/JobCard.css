@@ -1,0 +1,82 @@
+.job-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+}
+
+.job-card .job-card-item {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  padding: 20px;
+  width: 20vw;
+}
+
+.job-card .job-card-item .title {
+  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.job-card .job-card-item .company-name {
+  color: #555;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.job-card .job-card-item .location {
+  color: #999;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.job-card .job-card-item .description {
+  color: #333;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+
+.job-card .job-card-item .experience-required {
+  color: #555;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.Btn-area {
+  display: flex;
+  flex-direction: column;
+}
+
+.job-card .job-card-item .apply-button {
+  background-color: #4caf50;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.job-card .job-card-item .apply-button:hover {
+  background-color: #45a049;
+}
+
+.referral {
+  background-color: #221fcb;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 10px;
+  cursor: pointer;
+}

@@ -1,10 +1,11 @@
-import logo from './logo.svg';
+import React from 'react';
+import JobCard from './components/JobCard/JobCard';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <h1>Hello World!</h1>
+      <JobCard jobs={[]} />
     </div>
   );
 }
