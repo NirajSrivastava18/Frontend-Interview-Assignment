@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Filter.css';
 
 const Filters = ({ jobData, onFilterChange }) => {
   const [minExp, setMinExp] = useState('');
@@ -136,8 +137,7 @@ const Filters = ({ jobData, onFilterChange }) => {
 
   return (
     <div className="filters">
-      <h2>Filters</h2>
-      <form>
+      <form className="Filter-Form">
         <label>
           Min Experience:
           <select value={minExp} onChange={handleMinExpChange}>
