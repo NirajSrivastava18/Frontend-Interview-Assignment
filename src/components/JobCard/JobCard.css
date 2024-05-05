@@ -69,7 +69,7 @@
   background-color: #4caf50;
   border: none;
   border-radius: 5px;
-  color: #000;
+  color: #fff;
   font-size: 14px;
   padding: 10px 20px;
   text-align: center;
@@ -100,5 +100,4 @@
   line-height: 1.5;
   font-weight: 500;
   margin-top: 0px;
-  margin-bottom: 0;
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import fetchSampleJdJSON from '../../utils/api.js';
 import Filters from '../Filters/Filters.js';
+import DescModal from '../DescModal/DescModal.js';
 import './JobCard.css';
 
 const JobCard = () => {
@@ -11,6 +12,8 @@ const JobCard = () => {
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [currentPage, setCurrentPage] = useState(10);
   const [showLoadMoreButton, setShowLoadMoreButton] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -30,6 +33,11 @@ const JobCard = () => {
 
     fetchJobs();
   }, [currentPage]);
+
+  const handleJobClick = (job) => {
+    setSelectedJob(job);
+    setOpenModal(true);
+  };
 
   const handleFilterChange = (filters) => {
     if (!jobData || !jobData.jdList) {
@@ -119,10 +127,15 @@ const JobCard = () => {
     setCurrentPage(currentPage + 10);
   };
 
+  console.log(openModal);
+
   return (
     <>
-      <Filters jobData={jobData} onFilterChange={handleFilterChange} />
+      {openModal && (
+        <DescModal closeModal={setOpenModal} jobId={selectedJob.jdUid} />
+      )}
 
+      <Filters jobData={jobData} onFilterChange={handleFilterChange} />
       <div className="job-card">
         {jobsToRender.map((job) => (
           <div className="job-card-item" key={job.jdUid}>
@@ -155,9 +168,13 @@ const JobCard = () => {
             {job.jobDetailsFromCompany && (
               <p className="description">
                 <p style={{ fontWeight: 'bold', margin: '0' }}>About us</p>
-                {job.jobDetailsFromCompany}
+                {job.jobDetailsFromCompany.slice(0, 100)}...
+                <br />
               </p>
             )}
+            <button type="button" onClick={() => handleJobClick(job)}>
+              Read More
+            </button>
             {job.minExp && job.maxExp && (
               <p className="experience-required">
                 Minimum Experience <br />

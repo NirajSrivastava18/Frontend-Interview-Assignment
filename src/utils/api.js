@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_ENDPOINT = 'https://api.weekday.technology/adhoc/getSampleJdJSON';
 
-async function fetchSampleJdJSON(limit = 10, offset = 0) {
+async function fetchSampleJdJSON(limit = 30, offset = 0) {
   try {
     // Send a POST request to the API endpoint with the data
     const response = await axios.post(API_ENDPOINT, { limit, offset });
