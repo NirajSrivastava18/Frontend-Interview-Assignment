@@ -6,8 +6,11 @@ import './JobCard.css';
 const JobCard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
   const [jobData, setJobData] = useState({ jdList: [] });
   const [filteredJobs, setFilteredJobs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(10);
+  const [showLoadMoreButton, setShowLoadMoreButton] = useState(true);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -17,6 +20,7 @@ const JobCard = () => {
           setError('Invalid data');
         } else {
           setJobData(data);
+          setHasMore(data);
         }
         setLoading(false);
       } catch (error) {
@@ -25,53 +29,51 @@ const JobCard = () => {
     };
 
     fetchJobs();
-  }, []);
+  }, [currentPage]);
 
   const handleFilterChange = (filters) => {
     if (!jobData || !jobData.jdList) {
       return;
     }
 
-    let filteredJobs = jobData.jdList;
+    let filteredJobs = jobData.jdList.filter((job) => {
+      if (filters.minExp && job.minExp < filters.minExp) return false;
+      if (
+        filters.companyName &&
+        filters.companyName !== '' &&
+        job.companyName !== filters.companyName
+      )
+        return false;
+      if (
+        filters.location &&
+        filters.location !== '' &&
+        job.location !== filters.location
+      )
+        return false;
+      if (
+        filters.remoteOrOnsite &&
+        filters.remoteOrOnsite !== '' &&
+        (filters.remoteOrOnsite === 'remote'
+          ? job.location !== 'remote'
+          : job.location === 'remote')
+      )
+        return false;
+      if (
+        filters.jobRole &&
+        filters.jobRole !== '' &&
+        job.jobRole !== filters.jobRole
+      )
+        return false;
+      if (
+        filters.minBasePay &&
+        filters.minBasePay !== '' &&
+        job.minJdSalary < parseInt(filters.minBasePay, 10)
+      )
+        return false;
+      return true;
+    });
 
-    if (filters.minExp) {
-      filteredJobs = filteredJobs.filter(
-        (job) => job?.minExp >= filters.minExp
-      );
-    }
-
-    if (filters.companyName && filters.companyName !== '') {
-      filteredJobs = filteredJobs.filter(
-        (job) => job.companyName === filters.companyName
-      );
-    }
-    if (filters.location && filters.location !== '') {
-      filteredJobs = filteredJobs.filter(
-        (job) => job.location === filters.location
-      );
-    }
-    if (filters.remoteOrOnsite && filters.remoteOrOnsite !== '') {
-      filteredJobs = filteredJobs.filter((job) => {
-        if (filters.remoteOrOnsite === 'remote') {
-          return job.location === 'remote';
-        } else {
-          return job.location !== 'remote';
-        }
-      });
-    }
-    if (filters.jobRole && filters.jobRole !== '') {
-      filteredJobs = filteredJobs.filter(
-        (job) => job.jobRole === filters.jobRole
-      );
-    }
-    if (filters.minBasePay && filters.minBasePay !== '') {
-      const minBasePayFilter = parseInt(filters.minBasePay, 10);
-      filteredJobs = filteredJobs.filter(
-        (job) => job.minJdSalary >= minBasePayFilter
-      );
-    }
     setFilteredJobs(filteredJobs);
-    console.log(filteredJobs);
   };
 
   if (loading) {
@@ -82,7 +84,40 @@ const JobCard = () => {
     return <p>Error: {error}</p>;
   }
 
-  const jobsToRender = filteredJobs.length ? filteredJobs : jobData.jdList;
+  const jobsToRender = filteredJobs.length
+    ? filteredJobs.slice(0, 10)
+    : jobData.jdList.slice(0, currentPage);
+
+  console.log(jobsToRender);
+
+  const loadMoreJobs = async (event) => {
+    event.preventDefault();
+    try {
+      console.log('Fetching next page of jobs...');
+      const nextPage = currentPage + 10;
+      const response = await fetchSampleJdJSON(nextPage);
+      if (!response) {
+        console.log('Invalid data');
+        setError('Invalid data');
+        return;
+      }
+
+      console.log('Appending new jobs to jobData...');
+      setJobData({ jdList: [...jobData.jdList, ...response.jdList] });
+      setHasMore(response.jdList.length > 0);
+
+      if (jobData.jdList.length > 0) {
+        setHasMore(true);
+      } else {
+        setHasMore(false);
+        setShowLoadMoreButton(false);
+      }
+    } catch (error) {
+      console.log('Error fetching next page of jobs:', error.message);
+      setError(error.message);
+    }
+    setCurrentPage(currentPage + 10);
+  };
 
   return (
     <>
@@ -141,6 +176,11 @@ const JobCard = () => {
           </div>
         ))}
       </div>
+      {showLoadMoreButton && hasMore && (
+        <button className="loading-more-btn" onClick={loadMoreJobs}>
+          {loading ? 'Loading...' : 'Load More'}
+        </button>
+      )}
     </>
   );
 };
