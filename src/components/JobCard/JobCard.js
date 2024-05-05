@@ -172,7 +172,11 @@ const JobCard = () => {
                 <br />
               </p>
             )}
-            <button type="button" onClick={() => handleJobClick(job)}>
+            <button
+              type="button"
+              className="read-more"
+              onClick={() => handleJobClick(job)}
+            >
               Read More
             </button>
             {job.minExp && job.maxExp && (
@@ -193,11 +197,13 @@ const JobCard = () => {
           </div>
         ))}
       </div>
-      {showLoadMoreButton && hasMore && (
-        <button className="loading-more-btn" onClick={loadMoreJobs}>
-          {loading ? 'Loading...' : 'Load More'}
-        </button>
-      )}
+      <div className="load-more">
+        {showLoadMoreButton && hasMore && (
+          <button className="loading-more-btn" onClick={loadMoreJobs}>
+            {loading ? 'Loading...' : 'Load More'}
+          </button>
+        )}
+      </div>
     </>
   );
 };

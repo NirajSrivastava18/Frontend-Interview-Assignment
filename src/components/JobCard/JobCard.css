@@ -101,3 +101,31 @@
   font-weight: 500;
   margin-top: 0px;
 }
+
+.read-more {
+  background: none;
+  border: none;
+  color: blue;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.load-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-more-btn {
+  background-color: #221fcb;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  padding: 10px 30px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}

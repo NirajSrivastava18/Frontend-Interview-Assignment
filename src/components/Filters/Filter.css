@@ -1,7 +1,11 @@
 .filters {
-  margin-left: 120px;
+  /* margin-left: 120px; */
   margin-top: 20px;
 }
 .Filter-Form {
   margin: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
